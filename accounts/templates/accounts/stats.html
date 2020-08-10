@@ -1,0 +1,117 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+          <div class="row">
+            <div class="col s12 m6">
+                <div class="card">
+                  <div class="card-content">
+                    <span class="card-title center">Total orders by month:</span>
+
+    <div> <canvas id="myChart" width="400" height="400"></canvas></div>
+
+    <script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+
+        labels: [{% for i in labels %}'{{ i|date:'F Y'|safe }}',{% endfor %}],
+        datasets: [{
+            label: '# of Orders',
+            data: [{% for i in data %}'{{ i|safe }}',{% endfor %}],
+            backgroundColor: [
+                'rgba(33, 150, 243, 0.6)',
+                'rgba(244, 67, 54, 0.6)',
+                'rgba(255, 206, 86, 0.6)',
+                'rgba(75, 192, 192, 0.6)',
+                'rgba(153, 102, 255, 0.6)',
+                'rgba(255, 159, 64, 0.6)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+         responsive: true,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    precision: 0,
+                    beginAtZero: true
+                }
+            }]
+        }
+
+    }
+});
+</script>
+                  </div>
+                </div>
+            </div>
+          <div class="row">
+            <div class="col s12 m6">
+                <div class="card">
+                  <div class="card-content">
+                    <span class="card-title center">Total revenues by month:</span>
+                    <div>
+
+
+    <div> <canvas id="myChart1" width="400" height="400"></canvas></div>
+
+    <script>
+var ctx = document.getElementById('myChart1').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+
+        labels: [{% for i in labels1 %}'{{ i|date:'F Y'|safe }}',{% endfor %}],
+        datasets: [{
+            label: '# of revenues in $',
+            data: [{% for i in data1 %}'{{ i|safe }}',{% endfor %}],
+            backgroundColor: [
+                'rgba(33, 150, 243, 0.6)',
+                'rgba(244, 67, 54, 0.6)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+         responsive: true,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+
+    }
+});
+</script>
+
+                  </div>
+                </div>
+            </div>
+
+
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+        }
+        html {
+            display: table;
+            margin: auto;
+        }
+        body {
+            display: table-cell;
+            vertical-align: middle;
+            background-color: #f44336;
+        }
+        .margin {
+            margin: 0 !important;
+        }
+    </style>
+    {% block navbar %}
+    {% endblock %}
+
+    <div id="login-page" class="row">
+        <div class="row">
+            <div class="input-field col s12 center">
+                <img src="{% static "/images/logo1.png" %}" alt="" class="responsive-img valign profile-image-login">
+            </div>
+        </div>
+        <div class="col s12 z-depth-6 card-panel">
+            <form class="login-form" method="POST">
+                {% csrf_token %}
+                <div class="row margin">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">person_outline</i>
+                        <input class="validate" name="username" type="text">
+                        <label for="email" data-error="wrong" data-success="right" class="center-align">Usename</label>
+                    </div>
+                </div>
+                <div class="row margin">
+                    <div class="input-field col s12">
+                        <i class="material-icons prefix">lock_outline</i>
+                        <input name="password" type="password">
+                        <label for="password">Password</label>
+                    </div>
+
+                    <div class="row center">
+                        <div class="input-field col s12">
+                            <button class="btn waves-effect waves-light" type="submit" name="action">Login
+                                <i class="material-icons right">send</i>
+                            </button>
+                        </div>
+                    </div>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.tags == 'success' %}
+                                <div class="row">
+                                    <div class="input-field col s12 ">
+                                        <div class="card green">
+                                            <div class="card-content white-text">
+                                                <p>{{ message }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="row">
+                                    <div class="input-field col s12 ">
+                                        <div class="card red">
+                                            <div class="card-content white-text">
+                                                <p>{{ message }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <div class="row center">
+                        <div class="input-field col12">
+                            <p class="margin medium-small">Don't have an account? <a href="{% url 'register' %}">Register Now!</a></p>
+                            <p class="margin medium-small">Forgot password? <a href="{% url 'reset_password' %}">Reset password!</a></p>
+                        </div>
+                    </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

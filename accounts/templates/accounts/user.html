@@ -1,0 +1,38 @@
+{%  extends 'accounts/base.html' %}
+{% block content %}
+{%  include 'accounts/status.html' %}
+
+<h3>User Profile</h3>
+
+ <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+
+        <div class="col s12">
+          <table class="striped responsive-table">
+            <thead>
+              <tr>
+                  <th>Menu</th>
+                  <th>Category</th>
+                  <th>Date ordered</th>
+                  <th>Status</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for order in orders %}
+              <tr>
+                <td>{{ order.menu }}</td>
+                <td>{{ order.menu.category }}</td>
+                <td>{{ order.date_created }}</td>
+                <td>{{ order.status }}</td>
+              </tr>
+            {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+
+{% endblock content %}

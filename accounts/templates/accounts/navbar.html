@@ -1,0 +1,22 @@
+{%  load static %}
+<nav class="red" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="{% url 'home' %}" class="brand-logo center"><img src="{% static '/images/logo1.png' %}" /> </a>
+        <ul class="left hide-on-med-and-down">
+            {% if request.user.is_staff %}
+                <li><a href="{% url 'home' %}">Dashboard</a></li>
+                <li><a href="{% url 'menus' %}">Menus</a></li>
+                <li><a href="{% url 'stats' %}">Stats</a> </li>
+            {% else %}
+                <li><a href="{% url 'account' %}">Account</a> </li>
+            {% endif %}
+        </ul>
+        <ul class="right hide-on-med-and-down">
+            <li><span>Hello, {{ request.user }}</span></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+        <ul id="nav-mobile" class="sidenav">
+            <li><a href="{% url 'menus' %}">menus</a></li>
+        </ul>
+        <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    </div>
+</nav>

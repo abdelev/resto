@@ -1,0 +1,76 @@
+{% extends 'accounts/base.html' %}
+
+
+{% block content %}
+    {% include 'accounts/status.html' %}
+          <div class="row">
+        <div class="col s12 m4">
+
+            <h5>CUSTOMERS</h5>
+          <table class="striped responsive-table">
+            <thead>
+              <tr>
+                  <th></th>
+                  <th>Name</th>
+                  <th>Phone</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for customer in customers %}
+              <tr>
+                <td><a class="waves-effect waves-light lime darken-3 btn-small" href="{% url 'customer' customer.id %}">view</a></td>
+                <td>{{ customer.name }}</td>
+                <td>{{ customer.phone }}</td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+          <br>
+          <center><a class="waves-effect waves-light green btn" href=""><i class="material-icons left">add</i>Create customer</a></center>
+
+        </div>
+        <div class="col s12 m8">
+          <h5>LATEST 5 ORDERS</h5>
+          <table class="striped responsive-table">
+            <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Date ordered</th>
+                  <th>Status</th>
+                  <th>Update</th>
+                  <th>Cancel</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for order in last_5_orders %}
+              <tr>
+                <td>{{ order.menu }}</td>
+                <td>{{ order.date_created }}</td>
+                <td>{{ order.status }}</td>
+                <td><a class="waves-effect waves-light blue btn-small" href="{% url 'update_order' order.id %}">Update</a></td>
+                  <td>
+                      <!-- Modal Trigger -->
+                     <a class="waves-effect waves-light red btn modal-trigger" href="#modal1{{ order.id }}" >Cancel</a>
+                      <!-- Modal Structure -->
+                      <div id="modal1{{ order.id }}" class="modal">
+                        <div class="modal-content">
+                            <p>Are you sure you want to delete <b>"{{ order }}"</b>?</p>
+                        </div>
+                        <div class="modal-footer">
+                             <form action="{% url 'delete_order' order.id  %}" method="POST">
+                          {% csrf_token %}
+                          <a class="waves-effect waves-light red btn-small white-text" href="{% url 'home' %}">No</a>
+                          <button class="btn waves-effect waves-light blue btn-small" type="submit" name="action">Yes</button>
+			           </form>
+                        </div>
+                      </div>
+                  </td>
+              </tr>
+            {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+{% endblock %}

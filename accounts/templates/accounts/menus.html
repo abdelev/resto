@@ -1,0 +1,132 @@
+{% extends 'accounts/base.html' %}
+{% load materializecss %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'success' %}
+                <div class="row">
+                    <div class="input-field col s12 ">
+                        <div class="card green">
+                            <div class="card-content white-text">
+                                <p>{{ message }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% elif message.tags == 'info' %}
+                <div class="row">
+                    <div class="input-field col s12 ">
+                        <div class="card blue">
+                            <div class="card-content white-text">
+                                <p>{{ message }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             {% else %}
+                <div class="row">
+                    <div class="input-field col s12 ">
+                        <div class="card yellow">
+                            <div class="card-content black-text">
+                                <p>{{ message }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+     <div class="row">
+        <div class="col s12 ">
+          <div class="card white">
+            <div class="card-content black-text">
+                <form method="get">
+                {% for field in myFilter.form %}
+                <div class="input-field col s3">
+				{{ field|materializecss }}
+                </div>
+                {% endfor %}
+                <br>
+                <button class="btn waves-effect waves-light blue" type="submit" name="action">Search<i class="material-icons right">search</i>
+                </button>
+                </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <!--   Icon Section   -->
+    <div class="row">
+        <div class="col s12">
+            <p class="center-align"> <a class="waves-effect waves-light btn" href="{% url 'create_menu' %}"><i class="material-icons left">add</i>Create new menu</a></p>
+
+            <br>
+            <table class="striped responsive-table">
+                <thead>
+                <tr>
+                    <th>Menu</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Date created</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for menu in page_obj %}
+                    <tr>
+                        <td>{{ menu.name }}</td>
+                        <td>{{ menu.category }}</td>
+                        <td>{{ menu.price }}</td>
+                        <td>{{ menu.date_created }}</td>
+                        <td><a class="waves-effect waves-light blue btn-small" href="{% url 'update_menu' menu.id %}">Update</a></td>
+                                          <td>
+                      <!-- Modal Trigger -->
+                     <a class="waves-effect waves-light red btn modal-trigger" href="#modal1{{ menu.id }}" >Delete</a>
+                      <!-- Modal Structure -->
+                      <div id="modal1{{ menu.id }}" class="modal">
+                        <div class="modal-content">
+                            <p>Are you sure you want to delete <b>"{{ menu }}"</b>?</p>
+                        </div>
+                        <div class="modal-footer">
+                             <form action="{% url 'delete_menu' menu.id  %}" method="POST">
+                          {% csrf_token %}
+                          <a class="waves-effect waves-light red btn-small white-text" href="{% url 'menus' %}">No</a>
+                          <button class="btn waves-effect waves-light blue btn-small" type="submit" name="action">Yes</button>
+			           </form>
+                        </div>
+                      </div>
+                  </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <ul class="pagination center">
+
+                {% if page_obj.has_previous %}
+                    <li class="waves-effect"><a href="?page={{ page_obj.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                {% endif %}
+
+
+                {% for page in  page_obj.paginator.page_range %}
+                    {% if page_obj.number != page %}
+                        <li class="waves-effect"><a href="?page={{ page }}">{{ page }}</a></li>
+                    {% else %}
+                        <li class="active red"><a href="">{{ page }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="waves-effect"><a href="?page={{ page_obj.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+                {% else %}
+                    <li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                {% endif %}
+            </ul>
+
+        </div>
+
+{% endblock %}

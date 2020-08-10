@@ -1,0 +1,121 @@
+{% extends 'accounts/base.html' %}
+{% load materializecss %}
+{% block content %}
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m4">
+            <div class="card white">
+              <div class="card-content black-text">
+                <span class="card-title center"><h5>Customer:</h5>{{ customers.name }}</span>
+                <br>
+                <p class="center-align"><a class="waves-effect waves-light blue btn center"><i class="material-icons left">update</i>Update customer</a></p>
+                <br>
+                <p class="center-align"><a class="waves-effect waves-light green btn" href="{% url 'create_order' customers.id %}"><i class="material-icons left">add</i>Place order</a></p>
+              </div>
+            </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="card white">
+            <div class="card-content black-text">
+              <span class="card-title center"><h5>Contact information</h5></span>
+              <br>
+              <p class="center-align">Email: {{ customers.email }}</p>
+              <br>
+              <p class="center-align">Phone: {{ customers.phone }}</p>
+              <br>
+              <p class="center-align">Address: {{ customers.address }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="card white">
+            <div class="card-content black-text">
+              <span class="card-title center"><h5>Total orders</h5></span>
+              <br>
+              <h2 class="center-align">{{ orders_count }}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="container">
+    <div class="section">
+
+      <div class="row">
+        <div class="col s12 ">
+          <div class="card white">
+            <div class="card-content black-text">
+                <form method="get">
+                {% for field in myFilter.form %}
+                <div class="input-field col s3">
+				{{ field|materializecss }}
+                </div>
+                {% endfor %}
+                <br>
+                <button class="btn waves-effect waves-light blue" type="submit" name="action">Search<i class="material-icons right">search</i>
+                </button>
+                </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+
+        <div class="col s12">
+          <table class="striped responsive-table">
+            <thead>
+              <tr>
+                  <th>Menu</th>
+                  <th>Category</th>
+                  <th>Date ordered</th>
+                  <th>Status</th>
+                  <th>Update</th>
+                  <th>Delete</th>
+              </tr>
+            </thead>
+
+            <tbody>
+            {% for order in orders %}
+              <tr>
+                <td>{{ order.menu }}</td>
+                <td>{{ order.menu.category }}</td>
+                <td>{{ order.date_created }}</td>
+                <td>{{ order.status }}</td>
+                <td><a class="waves-effect waves-light blue btn-small" href="{% url 'update_order' order.id %}">Update</a></td>
+                  <td>
+                      <!-- Modal Trigger -->
+                     <a class="waves-effect waves-light red btn modal-trigger" href="#modal1{{ order.id }}" >Cancel</a>
+                      <!-- Modal Structure -->
+                      <div id="modal1{{ order.id }}" class="modal">
+                        <div class="modal-content">
+                            <p>Are you sure you want to delete <b>"{{ order }}"</b>?</p>
+                        </div>
+                        <div class="modal-footer">
+                             <form action="{% url 'delete_order' order.id  %}" method="POST">
+                          {% csrf_token %}
+                          <a class="waves-effect waves-light red btn-small white-text" href="{% url 'home' %}">No</a>
+                          <button class="btn waves-effect waves-light blue btn-small" type="submit" name="action">Yes</button>
+			           </form>
+                        </div>
+                      </div>
+                  </td>
+              </tr>
+            {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+
+{% endblock %}
