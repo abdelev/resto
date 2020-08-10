@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&hxga=#-%@e&1)ypa=)@v0_$+bu(w760lsaso804u*%1^f3-eg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['restolive-cli.herokuapp.com', '127.0.0.1']
 
