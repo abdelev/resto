@@ -90,6 +90,7 @@ def accountSettings(request):
     if request.method == 'POST':
         form = CustomerForm(request.POST, request.FILES, instance=customer)
         if form.is_valid():
+            messages.success(request, 'Your Profile has been updated successfully')
             form.save()
     context = {'form': form}
     return render(request, 'accounts/account_settings.html', context)

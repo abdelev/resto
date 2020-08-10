@@ -2,7 +2,19 @@
 {% load static %}
 {% load materializecss %}
 {% block content %}
-
+    {% for message in messages %}
+        {% if message.tags == 'success' %}
+            <div class="row">
+                <div class="input-field col s12 ">
+                    <div class="card green">
+                        <div class="card-content white-text">
+                            <p>{{ message }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
     <div class="row">
         <div class="col s12 m4">
             <div class="card white">
@@ -10,7 +22,7 @@
                     <span class="card-title center"><a class="waves-effect waves-light blue btn" href="{% url 'home' %}"><i class="material-icons left">keyboard_backspace</i>Back to profile</a></span>
                     <span class="card-title center">Account settings</span>
                     {% if request.user.customer.profile_pic %}
-                    <div class="center-align"><img src="{{ request.user.customer.profile_pic.url }}" width="200" height="200"></div>
+                        <div class="center-align"><img src="{{ request.user.customer.profile_pic.url }}" width="200" height="200"></div>
                     {% else %}
                         <div class="center-align"><img src="{% static 'images/avatar.png' %}" width="200" height="200"></div>
                     {% endif %}
