@@ -15,7 +15,13 @@
             <li><a href="{% url 'logout' %}">Logout</a></li>
         </ul>
         <ul id="nav-mobile" class="sidenav">
-            <li><a href="{% url 'menus' %}">menus</a></li>
+             {% if request.user.is_staff %}
+                <li><a href="{% url 'home' %}">Dashboard</a></li>
+                <li><a href="{% url 'menus' %}">Menus</a></li>
+                <li><a href="{% url 'stats' %}">Stats</a> </li>
+            {% else %}
+                <li><a href="{% url 'account' %}">Account</a> </li>
+            {% endif %}
         </ul>
         <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     </div>
