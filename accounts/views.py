@@ -216,8 +216,8 @@ def stats(request):
     labels1 = []
     data1 = []
 
-    orders_by_month = Order.objects.annotate(month=TruncMonth('date_created')).values('month').annotate(c=Count('id')).values_list('month', 'c')
-    revenue_by_month = Order.objects.annotate(month=TruncMonth('date_created')).values('month').annotate(total=Sum('menu__price')).values_list('month', 'total')
+    orders_by_month = Order.objects.annotate(month=TruncMonth('date_created')).values('month').annotate(c=Count('id')).values_list('month', 'c').order_by('month')
+    revenue_by_month = Order.objects.annotate(month=TruncMonth('date_created')).values('month').annotate(total=Sum('menu__price')).values_list('month', 'total').order_by('month')
 
     for i in orders_by_month:
             labels.append(i[0])
